@@ -17,16 +17,18 @@ public class Inicio extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
-        editMenu = new javax.swing.JMenu();
+        PACIENTES = new javax.swing.JMenu();
         mnlmPaciente = new javax.swing.JMenuItem();
+        MÉDICOS = new javax.swing.JMenu();
+        mnItmMedico = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("REGISTRO");
+        PACIENTES.setMnemonic('e');
+        PACIENTES.setText("PACIENTES");
 
         mnlmPaciente.setMnemonic('y');
         mnlmPaciente.setText("Paciente");
@@ -35,9 +37,21 @@ public class Inicio extends javax.swing.JFrame {
                 mnlmPacienteActionPerformed(evt);
             }
         });
-        editMenu.add(mnlmPaciente);
+        PACIENTES.add(mnlmPaciente);
 
-        menuBar.add(editMenu);
+        menuBar.add(PACIENTES);
+
+        MÉDICOS.setText("MEDICO");
+
+        mnItmMedico.setText("Registrar Medico");
+        mnItmMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmMedicoActionPerformed(evt);
+            }
+        });
+        MÉDICOS.add(mnItmMedico);
+
+        menuBar.add(MÉDICOS);
 
         helpMenu.setMnemonic('h');
         helpMenu.setText("AYUDA");
@@ -77,6 +91,11 @@ public class Inicio extends javax.swing.JFrame {
        mostrarVentana(jif);
     }//GEN-LAST:event_mnlmPacienteActionPerformed
 
+    private void mnItmMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmMedicoActionPerformed
+        JIFGMedico jif = JIFGMedico.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmMedicoActionPerformed
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -111,12 +130,14 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MÉDICOS;
+    private javax.swing.JMenu PACIENTES;
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mnItmMedico;
     private javax.swing.JMenuItem mnlmPaciente;
     // End of variables declaration//GEN-END:variables
 private void mostrarVentana(JInternalFrame jif){

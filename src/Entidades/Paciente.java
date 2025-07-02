@@ -160,6 +160,11 @@ public class Paciente {
                "Sexo: " + sexo + "\n" +
                "Teléfono: " + telefono + "\n" +
                "Correo: " + correo + "\n" +
-               "Dirección: " + direccion;
+               "Dirección: " + direccion+ "\n" +
+               "Fecha de nacimiento: " + fecha_nacimento+ "\n" +
+               "Lugar de nacimiento: " + lugar_nacimiento+ "\n" +
+               "Estado civil: " + estado_civil+ "\n" +
+               "Apoderado(a): " + Datos_del_Apoderado+ "\n" +
+               "Fecha de registro: "+fecha_registro;
     }
 }

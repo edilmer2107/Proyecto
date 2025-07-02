@@ -5,6 +5,8 @@ import Controllers.GPaciente;
 import Entidades.Paciente;
 import Models.M_Paciente;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -13,12 +15,16 @@ import javax.swing.JOptionPane;
 public class JIFGPaciente extends javax.swing.JInternalFrame {
     private static JIFGPaciente instancia;
     
+    private boolean estaEditado = false;
+    private int indiceSeleccionado = -1;
+    private  int idActualizar = -1;
     GPaciente gestPaciente = new GPaciente();
     M_Paciente mtp = new M_Paciente();
     
 
     private JIFGPaciente() {
         initComponents();
+        this.activarCtrls(false);
         this.tablaPaciente();
         
     }
@@ -382,9 +388,15 @@ public static String fechaActual(){
         return formatoFecha.format(fecha);
     }
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String str = txtBuscar.getText();
-        if(!str.isEmpty()){
-            buscarPorDni(str);
+        try {
+            String str = txtBuscar.getText();
+            if(!str.isEmpty()){
+                buscarPorDni(str);
+            }else {
+            JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            this.activarCtrls(false);
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -397,11 +409,64 @@ public static String fechaActual(){
     }//GEN-LAST:event_btnVerDatosActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+         this.indiceSeleccionado=this.tblLista.getSelectedRow();
+         if(this.indiceSeleccionado < 0)return;
+         try {
+                    Paciente paciente = (Paciente) this.mtp.getPaciente(indiceSeleccionado);
+                    txtNombres.setText(paciente.getNombres());
+                    txtApellidos.setText(paciente.getApellidos());
+                    txtDni.setText(paciente.getDni());
+                    txtTelefono.setText(paciente.getTelefono());
+                    txtDireccion.setText(paciente.getDireccion());
+                    txtCorreo.setText(paciente.getCorreo());
+                    txtLugar.setText(paciente.getLugar_nacimiento());
+                    txtEstadiCivil.setText(paciente.getEstado_civil());
+                    txtApoderado.setText(paciente.getDatos_del_Apoderado());
 
+
+                    // Sexo
+                    if ("Masculino".equalsIgnoreCase(paciente.getSexo())) {
+                        rbtnMasculino.setSelected(true);
+                    } else if ("Femenino".equalsIgnoreCase(paciente.getSexo())) {
+                        rbtnFemenino.setSelected(true);
+                    }
+
+                     if (paciente.getFecha_nacimento()!= null) {
+                txtFechaNacimiento.setDate(java.sql.Date.valueOf(paciente.getFecha_nacimento()));
+                }
+                
+            if (paciente.getFecha_registro()!= null) {
+                txtFechaR.setText(paciente.getFecha_registro().toString()); // o formato personalizado
+            }
+            this.idActualizar = paciente.getId();
+            
+            this.activarCtrls(true);
+            
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       try {
+        int fila = this.tblLista.getSelectedRow();
+        if(fila < 0){
+            JOptionPane.showMessageDialog(this, "Seleccione un Paciente para eliminar");
+            return;
+        }
 
+        Paciente objP = (Paciente) this.mtp.getPaciente(fila);
+
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar al paciente?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.gestPaciente.eliminar(objP.getId()); // Solo cambia estado a 0
+            this.tablaPaciente(); // Recarga solo pacientes con estado = 1
+            this.limpiarFormulario(); 
+            this.activarCtrls(false); 
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: NO se pudo eliminar el Paciente\n" + e.getMessage());
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -409,12 +474,60 @@ public static String fechaActual(){
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       
+           try {
+        this.validarDatos(); // Llama a la validación
+
+        Paciente objP = new Paciente();
+
+        objP.setNombres(txtNombres.getText().trim());
+        objP.setApellidos(txtApellidos.getText().trim());
+        objP.setDni(txtDni.getText().trim());
+        objP.setTelefono(txtTelefono.getText().trim());
+        objP.setCorreo(txtCorreo.getText().trim());
+        objP.setDireccion(txtDireccion.getText().trim());
+        objP.setLugar_nacimiento(txtLugar.getText().trim());
+        objP.setEstado_civil(txtEstadiCivil.getText().trim());
+        objP.setDatos_del_Apoderado(txtApoderado.getText().trim());
+
+        // Sexo
+        if (rbtnMasculino.isSelected()) {
+            objP.setSexo("Masculino");
+        } else if (rbtnFemenino.isSelected()) {
+            objP.setSexo("Femenino");
+        }
+
+        // Fechas
+        if (txtFechaNacimiento.getDate() != null) {
+            LocalDate fechaNacimiento = txtFechaNacimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            objP.setFecha_nacimento(fechaNacimiento);
+        }
+
+        objP.setFecha_registro(LocalDate.now());
+
+        if (idActualizar == -1) {
+            // CREAR
+            gestPaciente.crear(objP);
+        } else {
+            // ACTUALIZAR
+            objP.setId(idActualizar); // Recupera ID original
+            gestPaciente.actualizar(objP.getId(), objP);
+            idActualizar = -1;
+        }
+
+        tablaPaciente(); // Recarga
+        limpiarFormulario();
+        activarCtrls(false);
+        JOptionPane.showMessageDialog(this, "Paciente guardado correctamente.");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         this.limpiarFormulario();
         this.activarCtrls(true);
+        txtFechaR.setText(JIFGPaciente.fechaActual());
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -477,12 +590,19 @@ public static String fechaActual(){
         }
     }
    private void limpiarFormulario() {
-    txtApellidos.setText("");
-    txtNombres.setText("");
-    txtCorreo.setText("");
-    txtDni.setText("");
-    txtTelefono.setText("");
-    txtDireccion.setText("");
+        this.txtNombres.setText(""); 
+        this.txtApellidos.setText("");
+        this.txtCorreo.setText("");
+        this.txtDni.setText("");
+        this.txtTelefono.setText("");
+        this.txtDireccion.setText("");
+        this.txtFechaR.setText("");
+        this.txtFechaNacimiento.setDate(null);
+        this.txtLugar.setText("");
+        this.txtEstadiCivil.setText("");
+        this.txtApoderado.setText("");
+        this.rbtnFemenino.setSelected(false);
+        this.rbtnMasculino.setSelected(false);
 }
 private void activarCtrls(boolean valor){
         this.txtNombres.setEnabled(valor);
@@ -498,29 +618,66 @@ private void activarCtrls(boolean valor){
         this.txtApoderado.setEnabled(valor);
         this.rbtnFemenino.setEnabled(valor);
         this.rbtnMasculino.setEnabled(valor);
+        this.btnGuardar.setEnabled(valor);
     }
 
-    private void buscarPorDni(String str) {
-       /* String dni = txtDni.getText().trim(); // ejemplo: obtén el valor del campo de texto
-
-    if (dni.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe ingresar un DNI", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
+    private void buscarPorDni(String dni) {
+    try {
+        Paciente paciente = gestPaciente.buscarPorDni(dni); // Asegúrate de que este método exista en GPaciente
+        
+        JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
-    // Aquí deberías consultar a tu controlador o modelo
-    Paciente paciente = controladorPaciente.buscarPorDni(dni); // ejemplo
+    private void validarDatos() throws Exception {
+    // Validación de campos vacíos o nulos
+    if (txtNombres.getText().trim().isEmpty())
+        throw new Exception("El campo 'Nombres' no puede estar vacío.");
 
-    if (paciente != null) {
-        // Mostrar los datos en los campos correspondientes
-        txtNombres.setText(paciente.getNombres());
-        txtApellidos.setText(paciente.getApellidos());
-        // etc...
-    } else {
-        JOptionPane.showMessageDialog(this, "Paciente no encontrado", "Info", JOptionPane.INFORMATION_MESSAGE);
-    }*/
-    }
+    if (txtApellidos.getText().trim().isEmpty())
+        throw new Exception("El campo 'Apellidos' no puede estar vacío.");
 
-    
-    
+    if (txtDni.getText().trim().isEmpty())
+        throw new Exception("El campo 'DNI' no puede estar vacío.");
+    else if (!txtDni.getText().matches("\\d{8}"))
+        throw new Exception("El DNI debe tener 8 dígitos numéricos.");
+
+    if (!rbtnMasculino.isSelected() && !rbtnFemenino.isSelected())
+        throw new Exception("Debe seleccionar el sexo.");
+
+    if (txtTelefono.getText().trim().isEmpty())
+        throw new Exception("El campo 'Teléfono' no puede estar vacío.");
+    else if (!txtTelefono.getText().matches("\\d{9}"))
+        throw new Exception("El teléfono debe tener 9 dígitos.");
+
+    if (txtCorreo.getText().trim().isEmpty())
+        throw new Exception("El campo 'Correo' no puede estar vacío.");
+    else if (!txtCorreo.getText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+        throw new Exception("El correo no tiene un formato válido.");
+
+    if (txtDireccion.getText().trim().isEmpty())
+        throw new Exception("El campo 'Dirección' no puede estar vacío.");
+
+    if (txtLugar.getText().trim().isEmpty())
+        throw new Exception("El campo 'Lugar de nacimiento' no puede estar vacío.");
+
+    if (txtEstadiCivil.getText().trim().isEmpty())
+        throw new Exception("El campo 'Estado civil' no puede estar vacío.");
+
+    if (txtApoderado.getText().trim().isEmpty())
+        throw new Exception("El campo 'Apoderado' no puede estar vacío.");
+
+    if (txtFechaNacimiento.getDate() == null)
+        throw new Exception("Debe seleccionar la 'Fecha de nacimiento'.");
+
+    // Validar que la fecha no sea futura
+    LocalDate fechaNacimiento = txtFechaNacimiento.getDate()
+            .toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+    if (fechaNacimiento.isAfter(LocalDate.now()))
+        throw new Exception("La 'Fecha de nacimiento' no puede ser una fecha futura.");
+}
 }
