@@ -21,7 +21,7 @@ public class GEspecialidad implements CRUD{
         PreparedStatement ps = null;
         try {
             this.con = Conexion.conectar();
-            String sql = "SELECT * FROM especialidad WHERE estado = 1";
+            String sql = "SELECT id, tipoE FROM especialidad WHERE estado = 1";
             ps = this.con.prepareStatement(sql);
             rs = ps.executeQuery();
             Especialidad objEs = new Especialidad();

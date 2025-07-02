@@ -105,9 +105,9 @@ public void actualizar(int id, Object object) throws Exception {
 
         int filas = ps.executeUpdate();
         if (filas > 0) {
-            System.out.println("Médico actualizado correctamente.");
+            System.out.println("Medico actualizado correctamente.");
         } else {
-            System.out.println("No se encontró el médico con ID: " + id);
+            System.out.println("No se encontro el médico con ID: " + id);
         }
 
     } finally {

@@ -30,7 +30,7 @@ public class Especialidad {
 
     @Override
     public String toString() {
-        return tipoE;
+        return this.tipoE;
     }
     
     

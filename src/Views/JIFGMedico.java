@@ -300,6 +300,7 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
             gestMedico.actualizar(objM.getId(), objM);
             idActualizar = -1;
         }
+            this.tablaMedico();
             this.limpiarFormulario();
             this.activarCrls(false);
         } catch (Exception e) {
@@ -353,9 +354,12 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         }
 
         Medico objM = (Medico) this.mtM.getMedico(fila);
+        int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar al medico?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
         this.gestMedico.eliminar(objM.getId());
         this.tablaMedico();
         this.limpiarFormulario();
+        }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error: NO se pudo eliminar el medico\n" + e.getMessage());
     }
@@ -427,6 +431,7 @@ private void limpiarFormulario(){
     }
     private void comboEspecialidad() {
         try {
+            
            this.mcEs.setListEspe(this.gestEspe.listar());
         } catch (Exception e) {
         
