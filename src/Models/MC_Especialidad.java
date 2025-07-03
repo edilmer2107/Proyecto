@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-public class M_Especialidad extends AbstractListModel implements ComboBoxModel{
+public class MC_Especialidad extends AbstractListModel implements ComboBoxModel{
     private ArrayList<Especialidad> listEspe = new ArrayList<>();
     private Especialidad seleccionado = null;
 

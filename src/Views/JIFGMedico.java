@@ -5,7 +5,8 @@ import Controllers.GEspecialidad;
 import Controllers.GMedico;
 import Entidades.Especialidad;
 import Entidades.Medico;
-import Models.M_Especialidad;
+import Entidades.Paciente;
+import Models.MC_Especialidad;
 import Models.M_Medico;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -19,7 +20,7 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
     GMedico gestMedico = new GMedico();
     GEspecialidad gestEspe = new GEspecialidad();
     M_Medico mtM = new M_Medico();
-    M_Especialidad mcEs = new M_Especialidad();
+    MC_Especialidad mcEs = new MC_Especialidad();
     
     private JIFGMedico() {
         
@@ -63,6 +64,8 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         btnModificar1 = new javax.swing.JButton();
         btnEliminar1 = new javax.swing.JButton();
         btnSalir1 = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos "));
 
@@ -173,7 +176,7 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmboxEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnCancelar)
@@ -228,7 +231,7 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnModificar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -242,18 +245,25 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnVerDatos1)
-                .addGap(18, 18, 18)
-                .addComponent(btnModificar1)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar1)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnVerDatos1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
         );
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -263,17 +273,27 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -281,6 +301,8 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
+            
+            this.validarDatos();
             Medico objM = new Medico();
             
             objM.setApellidos( this.txtApellidos.getText() );
@@ -369,8 +391,22 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        try {
+            String str = txtBuscar.getText();
+            if(!str.isEmpty()){
+                buscarPorDni(str);
+            }else {
+            JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            this.activarCrls(false);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar1;
     private javax.swing.JButton btnGuardar;
@@ -390,6 +426,7 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblLista;
     private javax.swing.JTextField txtApellidos;
+    private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtNombres;
@@ -437,4 +474,59 @@ private void limpiarFormulario(){
         
         }
     }
+    private void buscarPorDni(String dni) {
+    try {
+        Medico medico = gestMedico.buscarPorDni(dni); // Asegúrate de que este método exista en GPaciente
+        
+        JOptionPane.showMessageDialog(this, medico.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+    private void validarDatos() throws Exception {
+    // Validar nombres
+    if (txtNombres.getText().trim().isEmpty()) {
+        throw new Exception("El campo 'Nombres' no puede estar vacío.");
+    }
+
+    // Validar apellidos
+    if (txtApellidos.getText().trim().isEmpty()) {
+        throw new Exception("El campo 'Apellidos' no puede estar vacío.");
+    }
+
+    // Validar DNI
+    String dni = txtDni.getText().trim();
+    if (dni.isEmpty()) {
+        throw new Exception("El campo 'DNI' no puede estar vacío.");
+    }
+    if (!dni.matches("\\d{8}")) {
+        throw new Exception("El DNI debe tener exactamente 8 dígitos numéricos.");
+    }
+
+    // Validar teléfono
+    String telefono = txtTelefono.getText().trim();
+    if (telefono.isEmpty()) {
+        throw new Exception("El campo 'Teléfono' no puede estar vacío.");
+    }
+    if (!telefono.matches("\\d{9}")) {
+        throw new Exception("El teléfono debe tener exactamente 9 dígitos numéricos.");
+    }
+
+    // Validar correo
+    String correo = txtCorreo.getText().trim();
+    if (correo.isEmpty()) {
+        throw new Exception("El campo 'Correo' no puede estar vacío.");
+    }
+    if (!correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        throw new Exception("El correo electrónico no tiene un formato válido.");
+    }
+
+    // Validar especialidad seleccionada
+    Especialidad especialidadSeleccionada = this.mcEs.getSeleccionado();
+    if (especialidadSeleccionada == null) {
+        throw new Exception("Debe seleccionar una especialidad.");
+    }
+}
+
 }

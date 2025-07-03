@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-07-2025 a las 04:51:36
+-- Tiempo de generación: 03-07-2025 a las 09:35:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,6 +46,29 @@ INSERT INTO `especialidad` (`id`, `tipoE`, `estado`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `historia`
+--
+
+CREATE TABLE `historia` (
+  `id` bigint(20) NOT NULL,
+  `id_paciente` int(11) NOT NULL,
+  `id_medico` int(11) NOT NULL,
+  `id_especialidad` int(11) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `motivo_consulta` varchar(400) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historia`
+--
+
+INSERT INTO `historia` (`id`, `id_paciente`, `id_medico`, `id_especialidad`, `fecha`, `motivo_consulta`, `observaciones`) VALUES
+(1, 1, 2, 3, '2025-07-01', 'aaaaaaaaaaaaaaaaaaaaa', 'bbbbbbbbbbbbbbbbbbbbbb');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `medico`
 --
 
@@ -68,10 +91,11 @@ CREATE TABLE `medico` (
 
 INSERT INTO `medico` (`id`, `nombres`, `apellidos`, `dni`, `telefono`, `correo`, `id_especialidad`, `usuario`, `contrasena`, `estado`) VALUES
 (1, 'Luis', 'Sánchez León', '', '', '', 3, 'lsanchez', '12345', 1),
-(2, 'María', 'Torres Vega', '', '', '', 3, 'mtorres', 'abcde', 1),
-(21, 'Alex', 'Castillo', '87654321', '987654321', 'alex@gmail.com', 3, NULL, NULL, 1),
+(2, 'María', 'Torres Vega', '87654321', '987654321', 'mariatorres@gmail.com', 3, 'mtorres', 'abcde', 1),
+(21, 'Alexis Jose', 'Castillo Linares', '74805762', '987654321', 'alex@gmail.com', 2, NULL, NULL, 1),
 (22, 'Edil', 'Narva', '71968036', '987654321', 'edil@gmail.com', 5, NULL, NULL, 0),
-(23, 'Pepe', 'Popo', '98765432', '987654321', 'pepe@gmail.com', 5, NULL, NULL, 0);
+(23, 'Pepe', 'Popo', '98765432', '987654321', 'pepe@gmail.com', 5, NULL, NULL, 0),
+(24, 'Edil', 'Narva', '71968036', '987654321', 'edil@gmail.com', 5, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -123,6 +147,15 @@ ALTER TABLE `especialidad`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `historia`
+--
+ALTER TABLE `historia`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_paciente` (`id_paciente`),
+  ADD KEY `id_medico` (`id_medico`),
+  ADD KEY `id_especialidad` (`id_especialidad`);
+
+--
 -- Indices de la tabla `medico`
 --
 ALTER TABLE `medico`
@@ -146,10 +179,16 @@ ALTER TABLE `especialidad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `historia`
+--
+ALTER TABLE `historia`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `medico`
 --
 ALTER TABLE `medico`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
@@ -160,6 +199,14 @@ ALTER TABLE `paciente`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `historia`
+--
+ALTER TABLE `historia`
+  ADD CONSTRAINT `historia_ibfk_2` FOREIGN KEY (`id_medico`) REFERENCES `medico` (`id`),
+  ADD CONSTRAINT `historia_ibfk_3` FOREIGN KEY (`id_especialidad`) REFERENCES `especialidad` (`id`),
+  ADD CONSTRAINT `historia_ibfk_4` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id`);
 
 --
 -- Filtros para la tabla `medico`

@@ -15,15 +15,26 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem4 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         PACIENTES = new javax.swing.JMenu();
         mnlmPaciente = new javax.swing.JMenuItem();
         MÉDICOS = new javax.swing.JMenu();
         mnItmMedico = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        mnItmEnfermeria = new javax.swing.JMenuItem();
+        mnItmMedicinaGeneral = new javax.swing.JMenuItem();
+        mnItmObstetricia = new javax.swing.JMenuItem();
+        mnItmOdontologia = new javax.swing.JMenuItem();
+        mnItmPsicologia = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        mnItmHistoria = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
+
+        jMenuItem4.setText("jMenuItem4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,6 +64,42 @@ public class Inicio extends javax.swing.JFrame {
 
         menuBar.add(MÉDICOS);
 
+        jMenu2.setText("AREAS");
+
+        mnItmEnfermeria.setText("Enfermería");
+        mnItmEnfermeria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmEnfermeriaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnItmEnfermeria);
+
+        mnItmMedicinaGeneral.setText("Medicina General");
+        jMenu2.add(mnItmMedicinaGeneral);
+
+        mnItmObstetricia.setText("Obstetricia");
+        jMenu2.add(mnItmObstetricia);
+
+        mnItmOdontologia.setText("Odontología");
+        jMenu2.add(mnItmOdontologia);
+
+        mnItmPsicologia.setText("Psicología");
+        jMenu2.add(mnItmPsicologia);
+
+        menuBar.add(jMenu2);
+
+        jMenu1.setText("HISTORIAS");
+
+        mnItmHistoria.setText("Historias");
+        mnItmHistoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmHistoriaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mnItmHistoria);
+
+        menuBar.add(jMenu1);
+
         helpMenu.setMnemonic('h');
         helpMenu.setText("AYUDA");
 
@@ -79,7 +126,7 @@ public class Inicio extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(desktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -95,6 +142,16 @@ public class Inicio extends javax.swing.JFrame {
         JIFGMedico jif = JIFGMedico.getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmMedicoActionPerformed
+
+    private void mnItmHistoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmHistoriaActionPerformed
+        JIFGHistoria jif = JIFGHistoria.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmHistoriaActionPerformed
+
+    private void mnItmEnfermeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmEnfermeriaActionPerformed
+        JIFGEnfermeria jif = JIFGEnfermeria.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmEnfermeriaActionPerformed
 
    
     public static void main(String args[]) {
@@ -136,8 +193,17 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mnItmEnfermeria;
+    private javax.swing.JMenuItem mnItmHistoria;
+    private javax.swing.JMenuItem mnItmMedicinaGeneral;
     private javax.swing.JMenuItem mnItmMedico;
+    private javax.swing.JMenuItem mnItmObstetricia;
+    private javax.swing.JMenuItem mnItmOdontologia;
+    private javax.swing.JMenuItem mnItmPsicologia;
     private javax.swing.JMenuItem mnlmPaciente;
     // End of variables declaration//GEN-END:variables
 private void mostrarVentana(JInternalFrame jif){

@@ -1,4 +1,3 @@
-
 package Controllers;
 
 import BaseDatos.CRUD;
@@ -15,29 +14,35 @@ public class GEspecialidad implements CRUD{
     private Connection con = null;
 
     @Override
-    public ArrayList listar() throws Exception {
-        ArrayList<Especialidad> arrEspec = new ArrayList();
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        try {
-            this.con = Conexion.conectar();
-            String sql = "SELECT id, tipoE FROM especialidad WHERE estado = 1";
-            ps = this.con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            Especialidad objEs = new Especialidad();
-            while ( rs.next() ) {
-                
-                objEs.setId(rs.getInt("id"));
-                objEs.setTipoE(rs.getString("tipoE"));
-                
-                objEs = new Especialidad();
-                arrEspec.add(objEs);
-            }
-        } catch (Exception e) {
-            throw e;
+public ArrayList listar() throws Exception {
+    ArrayList<Especialidad> arrEspec = new ArrayList<>();
+    ResultSet rs = null;
+    PreparedStatement ps = null;
+
+    try {
+        this.con = Conexion.conectar();
+        String sql = "SELECT * FROM especialidad WHERE estado = 1";
+        ps = this.con.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Especialidad objEs = new Especialidad(); // ✅ Crear dentro del while
+            objEs.setId(rs.getInt("id"));
+            objEs.setTipoE(rs.getString("tipoE"));
+            arrEspec.add(objEs);
         }
-        return arrEspec;
+
+    } catch (Exception e) {
+        throw e;
+    } finally {
+        if (rs != null) rs.close();
+        if (ps != null) ps.close();
+        if (con != null) con.close();
     }
+
+    return arrEspec;
+}
+
 
     @Override
     public int crear(Object object) throws SQLException {
