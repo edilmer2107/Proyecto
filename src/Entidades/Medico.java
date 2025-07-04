@@ -100,7 +100,8 @@ public class Medico {
 
     @Override
     public String toString() {
-        return  nombres + apellidos;
+        return nombres + " " + apellidos;
+
     }
     public String verDatos() {
         return 

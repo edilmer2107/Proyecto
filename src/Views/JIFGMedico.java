@@ -108,6 +108,11 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         jLabel7.setText("Especialidad");
 
         cmboxEspecialidad.setModel(this.mcEs);
+        cmboxEspecialidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmboxEspecialidadActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Correo");
 
@@ -403,6 +408,10 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void cmboxEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxEspecialidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmboxEspecialidadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

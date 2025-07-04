@@ -3,14 +3,22 @@ package Views;
 
 import Controllers.GHistoria;
 import Entidades.Historia;
-import Entidades.Paciente;
 import Models.M_Historia;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import Controllers.GPaciente;
+import Controllers.GMedico;
+import Controllers.GEspecialidad;
+import Entidades.Paciente;
+import Entidades.Medico;
+import Entidades.Especialidad;
+import Models.MC_Especialidad;
+import Models.M_Medico;
+import javax.swing.DefaultComboBoxModel;
+
 
 public class JIFGEnfermeria extends javax.swing.JInternalFrame {
     private static JIFGEnfermeria instancia;
@@ -23,8 +31,18 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
 
     private JIFGEnfermeria() {
         initComponents();
+        
+        
         this.activarCtrls(false);
         this.tablaEnfermeria();
+    // estos métodos llenan los ComboBox con datos desde la BD
+        
+        cargarPacientes();
+        cargarMedicos();
+        cargarAreas(); // este nuevo
+
+        
+
     }
     public static JIFGEnfermeria getInstancia(){
         if(instancia == null || instancia.isClosed()){
@@ -49,7 +67,6 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         cmboxPaciente = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        cmboxMedico = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -58,6 +75,7 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        cmboxMedico = new javax.swing.JComboBox<>();
         btnBuscar1 = new javax.swing.JButton();
         txtBuscar1 = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -78,8 +96,19 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(txtObservaciones);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Area");
+
+        cmboxPaciente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmboxPacienteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Paciente");
 
@@ -115,6 +144,12 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
             }
         });
 
+        cmboxMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmboxMedicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -131,8 +166,8 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(cmboxArea, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmboxMedico, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmboxPaciente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cmboxPaciente, 0, 212, Short.MAX_VALUE)
+                                    .addComponent(cmboxMedico, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -181,12 +216,12 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cmboxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)))
+                                    .addComponent(jLabel2)
+                                    .addComponent(cmboxMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(7, 7, 7)
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmboxArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
@@ -262,7 +297,8 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -299,7 +335,7 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGap(0, 2, Short.MAX_VALUE)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
@@ -333,32 +369,73 @@ public static String fechaActual(){
         return formatoFecha.format(fecha);
     }
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            //this.validarDatos(); // Llama a la validación
+    try {
+        
+        // === Validaciones antes de guardar ===
 
-            Paciente objP = new Paciente();
-
-
-            objP.setFecha_registro(LocalDate.now());
-
-            if (idActualizar == -1) {
-                // CREAR
-                gestEnferme.crear(objP);
-            } else {
-                // ACTUALIZAR
-                objP.setId(idActualizar); // Recupera ID original
-                gestEnferme.actualizar(objP.getId(), objP);
-                idActualizar = -1;
-            }
-
-            tablaEnfermeria(); // Recarga
-            limpiarFormulario();
-            activarCtrls(false);
-            JOptionPane.showMessageDialog(this, "Paciente guardado correctamente.");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
+        if (cmboxPaciente.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un paciente.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
         }
+
+        if (cmboxMedico.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un médico responsable.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (cmboxArea.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un área o especialidad.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (txtMotivo.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el motivo de consulta.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (txtObservaciones.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar las observaciones.", "Validación", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Solo si pasa todas las validaciones, se continúa:
+        Historia historia = new Historia();
+       
+
+        historia.setMotivoConsulta(txtMotivo.getText().trim());
+        historia.setObservaciones(txtObservaciones.getText().trim());
+
+        // Obtener objeto Paciente del ComboBox
+        Paciente paciente = (Paciente) cmboxPaciente.getSelectedItem();
+        Medico medico = (Medico) cmboxMedico.getSelectedItem();
+        Especialidad area = (Especialidad) cmboxArea.getSelectedItem();
+
+        historia.setPaciente(paciente);
+        historia.setMedico(medico);
+        historia.setEspecialidad(area);
+
+        historia.setFechaRegistro(LocalDate.now());
+
+        if (idActualizar == -1) {
+            // Crear nueva historia
+            gestEnferme.crear(historia);
+        } else {
+            // Actualizar historia existente
+            historia.setId(idActualizar);
+            gestEnferme.actualizar(idActualizar, historia);
+            idActualizar = -1;
+        }
+
+        tablaEnfermeria();
+        limpiarFormulario();
+        activarCtrls(false);
+
+        JOptionPane.showMessageDialog(this, "Historia guardada correctamente.");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar historia: " + e.getMessage());
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -373,16 +450,7 @@ public static String fechaActual(){
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-        try {
-            String str = txtBuscar.getText();
-            if(!str.isEmpty()){
-                //buscarPorDni(str);
-            }else {
-                JOptionPane.showMessageDialog(this, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-            this.activarCtrls(false);
-        } catch (Exception e) {
-        }
+   
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     private void btnVerDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDatosActionPerformed
@@ -407,7 +475,24 @@ public static String fechaActual(){
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void cmboxPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxPacienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmboxPacienteActionPerformed
+
+    private void cmboxMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmboxMedicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmboxMedicoActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+       
+        String dni = txtBuscar.getText().trim();
+        if (!dni.isEmpty()) {
+            buscarPorDni(dni);
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
     
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -464,10 +549,28 @@ private void tablaEnfermeria() {
 }
  
    private void limpiarFormulario() {
-        
+   
+    txtMotivo.setText("");
+    txtObservaciones.setText("");
+    txtFecha.setText("");
+    cmboxPaciente.setSelectedIndex(0);
+    cmboxMedico.setSelectedIndex(0);
+    cmboxArea.setSelectedIndex(0);
 }
+
 private void activarCtrls(boolean valor){
-        
+      
+    txtMotivo.setEnabled(valor);
+    txtObservaciones.setEnabled(valor);
+    cmboxPaciente.setEnabled(valor);
+    cmboxMedico.setEnabled(valor);
+    cmboxArea.setEnabled(valor);
+    txtFecha.setEnabled(false); // La fecha no se edita
+    btnGuardar.setEnabled(valor);
+    btnCancelar.setEnabled(valor);
+    btnNuevo.setEnabled(!valor);
+
+
     }
 
     /*private void buscarPorDni(String dni) {
@@ -484,6 +587,70 @@ private void activarCtrls(boolean valor){
     }
 }
 */
+private void cargarPacientes() {
+    try {
+        GPaciente gp = new GPaciente();
+        ArrayList<Paciente> lista = gp.listar();
+        
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Paciente p : lista) {
+            modelo.addElement(p); // agrega el objeto completo
+        }
+        cmboxPaciente.setModel(modelo); // se asigna al ComboBox
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar pacientes: " + e.getMessage());
+    }
+}
+
+private void cargarMedicos() {
+    try {
+        GMedico gm = new GMedico();
+        ArrayList<Medico> lista = gm.listar();
+        
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Medico m : lista) {
+            modelo.addElement(m);
+        }
+        cmboxMedico.setModel(modelo);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar médicos: " + e.getMessage());
+    }
+}
+
+private void cargarAreas() {
+    try {
+        GEspecialidad ge = new GEspecialidad();
+        ArrayList<Especialidad> lista = ge.listar();
+
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (Especialidad e : lista) {
+            modelo.addElement(e);
+        }
+        cmboxArea.setModel(modelo);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar áreas: " + e.getMessage());
+    }
+}
+
+private void buscarPorDni(String dni) {
+    try {
+        System.out.println("Buscando DNI: " + dni); // Para verificar en consola
+
+        GPaciente gestPaciente = new GPaciente();
+        Paciente paciente = gestPaciente.buscarPorDni(dni);
+
+        if (paciente != null) {
+            System.out.println("Paciente encontrado: " + paciente.getNombres());
+            JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró paciente con ese DNI", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+}
 
    
-}

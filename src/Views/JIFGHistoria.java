@@ -13,9 +13,11 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
     M_Historia mtE = new M_Historia();
 
     private JIFGHistoria() {
-        initComponents();
-        this.tablaHistoria();
-    }
+    initComponents();
+    this.tblLista.setModel(mtE);
+    this.tablaHistoria(2); // Enfermería
+}
+
     
     public static JIFGHistoria getInstancia(){
         if(instancia == null || instancia.isClosed()){
@@ -172,21 +174,21 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblLista;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
-private void tablaHistoria() {
+
+    
+    private void tablaHistoria(int idEspecialidad) {
     try {
-            ArrayList<Historia> arrEnferme = null;
-            // 1. Extract data from the database
-            GHistoria bdEnfermeria = new GHistoria();
-            arrEnferme = bdEnfermeria.listar();
-            // 2. Send the obtained data to the table model
-            mtE.setListHistoria(arrEnferme);
-            // 3. Notify the table that the data has changed
-            mtE.fireTableDataChanged(); // This may not be necessary if you call fireTableDataChanged in setListHistoria
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al cargar datos: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        ArrayList<Historia> arrHistoria = new GHistoria().listarPorEspecialidad(idEspecialidad);
+        mtE.setListHistoria(arrHistoria);
+        mtE.fireTableDataChanged();
+
+        if (arrHistoria.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron registros de historias médicas");
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar datos: " + e.getMessage());
+        e.printStackTrace();
+    }
 }
+
 }

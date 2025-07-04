@@ -163,17 +163,19 @@ public class GPaciente implements CRUD{
     }
 
     @Override
-    public Object get(int id) throws Exception {
-        Paciente objP = new Paciente();
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        try {
-            this.con = Conexion.conectar();
-            String sql = "SELECT * FROM paciente WHERE id = ? ";
-            ps = this.con.prepareStatement(sql);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
+public Object get(int id) throws Exception {
+    Paciente objP = null;  // ✅ Inicializa como null
+    ResultSet rs = null;
+    PreparedStatement ps = null;
+
+    try {
+        this.con = Conexion.conectar();
+        String sql = "SELECT * FROM paciente WHERE id = ? AND estado = 1";
+        ps = this.con.prepareStatement(sql);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
             objP = new Paciente();
             objP.setId(rs.getInt("id"));
             objP.setNombres(rs.getString("nombres"));
@@ -183,23 +185,32 @@ public class GPaciente implements CRUD{
             objP.setTelefono(rs.getString("telefono"));
             objP.setCorreo(rs.getString("correo"));
             objP.setDireccion(rs.getString("direccion"));
+
             Date fechaNacSql = rs.getDate("fecha_nacimento");
             if (fechaNacSql != null) {
                 objP.setFecha_nacimento(fechaNacSql.toLocalDate());
             }
+
             objP.setLugar_nacimiento(rs.getString("lugar_nacimiento"));
             objP.setEstado_civil(rs.getString("estado_civil"));
             objP.setDatos_del_Apoderado(rs.getString("Datos_del_Apoderado"));
+
             Date fechaRegSql = rs.getDate("fecha_registro");
             if (fechaRegSql != null) {
                 objP.setFecha_registro(fechaRegSql.toLocalDate());
-            }  
+            }
         }
-        } catch (Exception e) {
-        }
-        
-        return objP;
+    } catch (Exception e) {
+        throw e;
+    } finally {
+        if (rs != null) rs.close();
+        if (ps != null) ps.close();
+        if (con != null) con.close();
     }
+
+    return objP;  // ✅ Devuelve null si no se encontró nada
+}
+
     public Paciente buscarPorDni(String dni) throws Exception {
     Paciente objP = null;
     String sql = "SELECT * FROM paciente WHERE dni = ? AND estado=1";

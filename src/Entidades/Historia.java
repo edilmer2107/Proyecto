@@ -94,6 +94,13 @@ public class Historia {
                 "Motivo consulta: " + motivo_consulta + "\n" +
                 "Observaciones: " + observaciones ;
     }
-    
-    
+
+    public void setMotivoConsulta(String motivoConsulta) {
+    this.motivo_consulta = motivoConsulta;
+}
+
+public void setFechaRegistro(LocalDate fechaRegistro) {
+    this.fecha = fechaRegistro;
+}
+
 }
