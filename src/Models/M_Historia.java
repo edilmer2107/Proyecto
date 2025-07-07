@@ -70,4 +70,6 @@ public class M_Historia extends AbstractTableModel{
         }
         return objH;
     }
+     
+     
 }

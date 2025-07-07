@@ -58,21 +58,33 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Medicina General"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItmMedicinaGeneralActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnItmObstetricia">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Obstetricia"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItmObstetriciaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnItmOdontologia">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Odontolog&#xed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItmOdontologiaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnItmPsicologia">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Psicolog&#xed;a"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItmPsicologiaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

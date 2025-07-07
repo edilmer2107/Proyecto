@@ -194,4 +194,49 @@ public class GMedico implements CRUD {
         }
         return objM;
     }
+    public ArrayList<Medico> listarPorEspecialidad(int idEspecialidad) throws Exception {
+    ArrayList<Medico> lista = new ArrayList<>();
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    try {
+        con = Conexion.conectar();
+        String sql = "SELECT m.*, e.tipoE FROM medico m " +
+                     "INNER JOIN especialidad e ON m.id_especialidad = e.id " +
+                     "WHERE m.id_especialidad = ? AND m.estado = 1";
+
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, idEspecialidad);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Especialidad esp = new Especialidad();
+            esp.setId(rs.getInt("id_especialidad"));
+            esp.setTipoE(rs.getString("tipoE"));
+
+            Medico m = new Medico(
+                esp,
+                rs.getString("nombres"),
+                rs.getString("apellidos"),
+                rs.getString("dni"),
+                rs.getString("telefono"),
+                rs.getString("correo")
+            );
+            m.setId(rs.getInt("id"));
+
+            lista.add(m);
+        }
+
+    } finally {
+        if (rs != null) rs.close();
+        if (ps != null) ps.close();
+        if (con != null) con.close();
+    }
+
+    return lista;
+}
+
+   
+
 }   

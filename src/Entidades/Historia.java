@@ -87,13 +87,18 @@ public class Historia {
 
     
     public String verDatos() {
-        return  "Paciente: " + paciente +  "\n" +
-                "Medico: " + medico + "\n" +
-                "Area: " + especialidad + "\n" +
-                "Fecha: " + fecha +  "\n" +
-                "Motivo consulta: " + motivo_consulta + "\n" +
-                "Observaciones: " + observaciones ;
-    }
+    String nombrePaciente = (paciente != null) ? paciente.getNombres() + " " + paciente.getApellidos() : "Sin datos";
+    String nombreMedico = (medico != null) ? medico.getNombres() + " " + medico.getApellidos() : "Sin datos";
+    String nombreArea = (especialidad != null) ? especialidad.getTipoE(): "Sin datos";
+
+    return  "Paciente: " + nombrePaciente + "\n" +
+            "Medico: " + nombreMedico + "\n" +
+            "Area: " + nombreArea + "\n" +
+            "Fecha: " + fecha + "\n" +
+            "Motivo consulta: " + motivo_consulta + "\n" +
+            "Observaciones: " + observaciones;
+}
+
 
     public void setMotivoConsulta(String motivoConsulta) {
     this.motivo_consulta = motivoConsulta;

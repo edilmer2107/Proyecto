@@ -153,5 +153,22 @@ public ArrayList listar() throws Exception {
         }
         return objEs;
     }
+   public Especialidad buscarPorNombre(String nombre) throws Exception {
+    Especialidad esp = null;
+    String sql = "SELECT * FROM especialidad WHERE tipoE = ? AND estado = 1";
+    try (Connection con = Conexion.conectar();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setString(1, nombre);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            esp = new Especialidad();
+            esp.setId(rs.getInt("id"));
+            esp.setTipoE(rs.getString("tipoE"));
+        }
+    }
+    return esp;
+}
     
 }

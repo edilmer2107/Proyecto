@@ -75,15 +75,35 @@ public class Inicio extends javax.swing.JFrame {
         jMenu2.add(mnItmEnfermeria);
 
         mnItmMedicinaGeneral.setText("Medicina General");
+        mnItmMedicinaGeneral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmMedicinaGeneralActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnItmMedicinaGeneral);
 
         mnItmObstetricia.setText("Obstetricia");
+        mnItmObstetricia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmObstetriciaActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnItmObstetricia);
 
         mnItmOdontologia.setText("Odontología");
+        mnItmOdontologia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmOdontologiaActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnItmOdontologia);
 
         mnItmPsicologia.setText("Psicología");
+        mnItmPsicologia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmPsicologiaActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnItmPsicologia);
 
         menuBar.add(jMenu2);
@@ -149,9 +169,29 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItmHistoriaActionPerformed
 
     private void mnItmEnfermeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmEnfermeriaActionPerformed
-        JIFGEnfermeria jif = JIFGEnfermeria.getInstancia();
+        JIFGEnfermeria jif = JIFGEnfermeria.getInstancia().getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmEnfermeriaActionPerformed
+
+    private void mnItmMedicinaGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmMedicinaGeneralActionPerformed
+        JIFGMedicinaGeneral jif = JIFGMedicinaGeneral.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmMedicinaGeneralActionPerformed
+
+    private void mnItmObstetriciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmObstetriciaActionPerformed
+        JIFGObstetricia jif = JIFGObstetricia.getInstancia().getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmObstetriciaActionPerformed
+
+    private void mnItmOdontologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmOdontologiaActionPerformed
+        JIFGOdontologia jif = JIFGOdontologia.getInstancia().getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmOdontologiaActionPerformed
+
+    private void mnItmPsicologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmPsicologiaActionPerformed
+        JIFGPSicologia jif = JIFGPSicologia.getInstancia().getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmPsicologiaActionPerformed
 
    
     public static void main(String args[]) {

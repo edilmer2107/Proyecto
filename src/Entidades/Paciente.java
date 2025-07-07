@@ -147,9 +147,10 @@ public class Paciente {
     }
 
     @Override
-    public String toString() {
-        return  nombres  + apellidos;
-    }
+public String toString() {
+    return nombres + " " + apellidos; 
+}
+
 
     // Método para mostrar datos (opcional)
     public String verDatos() {
