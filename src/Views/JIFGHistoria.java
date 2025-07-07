@@ -3,19 +3,34 @@ package Views;
 
 import Controllers.GHistoria;
 import Entidades.Historia;
-import Models.M_Historia;
+import Models.Tabla_Historia;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class JIFGHistoria extends javax.swing.JInternalFrame {
     private static JIFGHistoria instancia;
     
-    M_Historia mtE = new M_Historia();
+    Tabla_Historia mtE = new Tabla_Historia();
 
     private JIFGHistoria() {
     initComponents();
+    tablaHistoria();
     this.tblLista.setModel(mtE);
-    this.tablaHistoria(2); // Enfermería
+     
+    
+    txtBuscar.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+    });
 }
 
     
@@ -105,15 +120,15 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnVerDatos1)
-                .addGap(18, 18, 18)
-                .addComponent(btnEliminar1)
-                .addGap(60, 60, 60)
-                .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnVerDatos1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar1)
+                        .addGap(284, 284, 284)
+                        .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 92, Short.MAX_VALUE))
         );
 
@@ -176,10 +191,15 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     
-    private void tablaHistoria(int idEspecialidad) {
+    private void tablaHistoria() {
+        ArrayList arrHistoria = null;
     try {
-        ArrayList<Historia> arrHistoria = new GHistoria().listarPorEspecialidad(idEspecialidad);
-        mtE.setListHistoria(arrHistoria);
+        //1 Extraer datos de la BD - cliente
+        GHistoria bdHistoria = new GHistoria();
+        arrHistoria = bdHistoria.listar();
+        
+        //2 Enviar los datos obtenido al modelo Tabla Clientes
+        mtE.setListTabla(arrHistoria);
         mtE.fireTableDataChanged();
 
         if (arrHistoria.isEmpty()) {
@@ -190,5 +210,24 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         e.printStackTrace();
     }
 }
+private void filtrar() {
+    String texto = txtBuscar.getText().trim();
+    if (!texto.isEmpty()) {
+        try {
+            GHistoria gh = new GHistoria();
+            ArrayList<Historia> resultados = new ArrayList<>();
+            for (Historia h : gh.buscarPorNombreODni(texto)) {
+                    resultados.add(h);
+            }
 
+            mtE.setListTabla(resultados);
+            tblLista.setModel(mtE);
+            tblLista.repaint();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        tablaHistoria();
+    }
+}
 }
