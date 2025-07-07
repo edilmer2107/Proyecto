@@ -23,6 +23,8 @@ import javax.swing.DefaultComboBoxModel;
 public class JIFGMedicinaGeneral extends javax.swing.JInternalFrame {
     private static JIFGMedicinaGeneral instancia;
     
+    private ArrayList<Paciente> listpPacientes = new ArrayList<>();
+    
     private boolean estaEditado = false;
     private int indiceSeleccionado = -1;
     private  int idActualizar = -1;
@@ -41,7 +43,22 @@ public class JIFGMedicinaGeneral extends javax.swing.JInternalFrame {
     cargarPacientes();
     cargarMedicos();
     cargarAreas();
-}
+
+     txtBuscar1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            filtrar();
+        }
+    });
+    }
+
 
     public static JIFGMedicinaGeneral getInstancia(){
         if(instancia == null || instancia.isClosed()){
@@ -85,6 +102,8 @@ public class JIFGMedicinaGeneral extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblLista = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
+
+        setTitle("AREA MEDICINA GENERAL");
 
         txtMotivo.setColumns(20);
         txtMotivo.setRows(5);
@@ -521,14 +540,13 @@ if (rpta == JOptionPane.YES_OPTION) {
     }//GEN-LAST:event_cmboxMedicoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       
-        String dni = txtBuscar.getText().trim();
-        if (!dni.isEmpty()) {
-            buscarPorDni(dni);
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    
+         
+    String dni = txtBuscar.getText().trim();
+    if (!dni.isEmpty()) {
+        buscarPorDni(dni); 
+    } else {
+        JOptionPane.showMessageDialog(null, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -593,8 +611,8 @@ private void tablaMedicinaGeneral() {
     cmboxPaciente.setSelectedIndex(0);
     cmboxMedico.setSelectedIndex(0);
     cmboxArea.setSelectedIndex(0);
+    txtBuscar.setText("");
 }
-
 private void activarCtrls(boolean valor){
       
     txtMotivo.setEnabled(valor);
@@ -627,32 +645,33 @@ private void activarCtrls(boolean valor){
 private void cargarPacientes() {
     try {
         GPaciente gp = new GPaciente();
-        ArrayList<Paciente> lista = gp.listar();
-        
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        for (Paciente p : lista) {
-            modelo.addElement(p); // agrega el objeto completo
+        listpPacientes = gp.listar();  // Lista de objetos
+
+        cmboxPaciente.removeAllItems();
+        for (Paciente p : listpPacientes) {
+            cmboxPaciente.addItem(p.getNombres() + " " + p.getApellidos());
         }
-        cmboxPaciente.setModel(modelo); // se asigna al ComboBox
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar pacientes: " + e.getMessage());
+        // …
     }
 }
+
 
 private void cargarMedicos() {
     try {
         GMedico gm = new GMedico();
-        ArrayList<Medico> lista = gm.listar();
-        
+        ArrayList<Medico> lista = gm.listarPorEspecialidad(3); // ✅ Solo médicos de Medicina General (ID 3)
+
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         for (Medico m : lista) {
-            modelo.addElement(m);
+            modelo.addElement(m.getNombres() + " " + m.getApellidos()); // O simplemente modelo.addElement(m);
         }
         cmboxMedico.setModel(modelo);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar médicos: " + e.getMessage());
     }
 }
+
 
 private void cargarAreas() {
     try {
@@ -675,22 +694,51 @@ private void cargarAreas() {
 
 private void buscarPorDni(String dni) {
     try {
-        System.out.println("Buscando DNI: " + dni); // Para verificar en consola
-
         GPaciente gestPaciente = new GPaciente();
         Paciente paciente = gestPaciente.buscarPorDni(dni);
 
         if (paciente != null) {
-            System.out.println("Paciente encontrado: " + paciente.getNombres());
-            JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+            // Limpiar lista y combo
+            listpPacientes.clear();
+            cmboxPaciente.removeAllItems();
+
+            // Agregar solo el paciente encontrado
+            listpPacientes.add(paciente);
+            cmboxPaciente.addItem(paciente.getNombres() + " " + paciente.getApellidos());
+            cmboxPaciente.setSelectedIndex(0); // Lo selecciona directamente
+
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró paciente con ese DNI", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
-
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
+
+private void filtrar() {
+    String texto = txtBuscar1.getText().trim();
+    if (!texto.isEmpty()) {
+        try {
+            GHistoria gh = new GHistoria();
+            ArrayList<Historia> resultados = new ArrayList<>();
+            for (Historia h : gh.buscarPorNombreODni(texto)) {
+                if (h.getEspecialidad().getId() == 3) { // Solo Medicina General
+                    resultados.add(h);
+                }
+            }
+
+            mtM.setListHistoria(resultados);
+            tblLista.setModel(mtM);
+            tblLista.repaint();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        tablaMedicinaGeneral();
+    }
+}
+
 
 }
 

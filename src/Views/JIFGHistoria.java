@@ -39,6 +39,8 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLista = new javax.swing.JTable();
 
+        setTitle("HISTORIA");
+
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

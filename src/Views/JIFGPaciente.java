@@ -80,6 +80,8 @@ public class JIFGPaciente extends javax.swing.JInternalFrame {
         txtFechaR = new javax.swing.JTextField();
         txtFechaNacimiento = new com.toedter.calendar.JDateChooser();
 
+        setTitle("PACIENTE");
+
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

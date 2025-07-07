@@ -169,7 +169,7 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItmHistoriaActionPerformed
 
     private void mnItmEnfermeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmEnfermeriaActionPerformed
-        JIFGEnfermeria jif = JIFGEnfermeria.getInstancia().getInstancia();
+        JIFGEnfermeria jif = JIFGEnfermeria.getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmEnfermeriaActionPerformed
 
@@ -179,17 +179,17 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItmMedicinaGeneralActionPerformed
 
     private void mnItmObstetriciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmObstetriciaActionPerformed
-        JIFGObstetricia jif = JIFGObstetricia.getInstancia().getInstancia();
+        JIFGObstetricia jif = JIFGObstetricia.getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmObstetriciaActionPerformed
 
     private void mnItmOdontologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmOdontologiaActionPerformed
-        JIFGOdontologia jif = JIFGOdontologia.getInstancia().getInstancia();
+        JIFGOdontologia jif = JIFGOdontologia.getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmOdontologiaActionPerformed
 
     private void mnItmPsicologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmPsicologiaActionPerformed
-        JIFGPSicologia jif = JIFGPSicologia.getInstancia().getInstancia();
+        JIFGPsicologia jif = JIFGPsicologia.getInstancia();
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmPsicologiaActionPerformed
 

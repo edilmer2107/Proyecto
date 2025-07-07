@@ -16,7 +16,7 @@ public class GHistoria implements CRUD{
        PreparedStatement ps = null;
         try {
             this.con = Conexion.conectar();
-           String sql = "SELECT " +
+String sql = "SELECT " +
     "  h.id, " +
     "  p.id AS id_paciente, p.nombres AS paciente_nombres, " +
     "  m.id AS id_medico, m.nombres AS medico_nombres, " +
@@ -26,8 +26,7 @@ public class GHistoria implements CRUD{
     "  INNER JOIN paciente p ON h.id_paciente = p.id " +
     "  INNER JOIN medico m ON h.id_medico = m.id " +
     "  INNER JOIN especialidad e ON h.id_especialidad = e.id " +
-    "WHERE m.estado = 1 AND p.estado = 1";
-
+    "WHERE m.estado = 1 AND p.estado = 1 AND h.estado = 1";
 
             
             ps = this.con.prepareStatement(sql);
@@ -78,7 +77,8 @@ arrHistoria.add(objH);
                 "INNER JOIN paciente p ON h.id_paciente = p.id " +
                 "INNER JOIN medico m ON h.id_medico = m.id " +
                 "INNER JOIN especialidad e ON h.id_especialidad = e.id " +
-                "WHERE m.estado = 1 AND p.estado = 1 AND e.id = ?";
+                "WHERE m.estado = 1 AND p.estado = 1 AND h.estado = 1 AND e.id = ?";
+
 
         ps = this.con.prepareStatement(sql);
         ps.setInt(1, idEspecialidad); // Aquí se filtra por el área
@@ -110,8 +110,8 @@ arrHistoria.add(objH);
     }
     return arrHistoria;
 }
-    
-    @Override
+
+@Override
 public int crear(Object obj) throws SQLException {
     Historia historia = (Historia) obj;
     int idGenerado = -1;
@@ -120,8 +120,9 @@ public int crear(Object obj) throws SQLException {
 
     try {
         this.con = Conexion.conectar();
-        String sql = "INSERT INTO historia (id_paciente, id_medico, id_especialidad, fecha, motivo_consulta, observaciones) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO historia " +
+                     "(id_paciente, id_medico, id_especialidad, fecha, motivo_consulta, observaciones, estado) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, 1)"; // <- agregamos estado = 1
 
         ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, historia.getPaciente().getId());
@@ -149,6 +150,7 @@ public int crear(Object obj) throws SQLException {
 
     return idGenerado;
 }
+
 
 
    @Override
@@ -179,13 +181,13 @@ public void actualizar(int id, Object obj) throws Exception {
     }
 }
 
-    @Override
+@Override
 public void eliminar(int id) throws Exception {
     PreparedStatement ps = null;
 
     try {
         this.con = Conexion.conectar();
-        String sql = "DELETE FROM historia WHERE id = ?";
+        String sql = "UPDATE historia SET estado = 0 WHERE id = ?";
         ps = this.con.prepareStatement(sql);
         ps.setInt(1, id);
         ps.executeUpdate();

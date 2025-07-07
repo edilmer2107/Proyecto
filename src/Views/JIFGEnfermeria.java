@@ -104,6 +104,8 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
         tblLista = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setTitle("AREA ENFERMERIA");
+
         txtMotivo.setColumns(20);
         txtMotivo.setRows(5);
         jScrollPane1.setViewportView(txtMotivo);
@@ -352,22 +354,23 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar1)
                     .addComponent(txtBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -430,6 +433,8 @@ public static String fechaActual(){
         this.limpiarFormulario();
         this.activarCtrls(true);
         txtFecha.setText(JIFGPaciente.fechaActual());
+        
+        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -550,13 +555,13 @@ System.out.println("Valor de texto: [" + texto + "]");
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
        
-        String dni = txtBuscar.getText().trim();
-        if (!dni.isEmpty()) {
-            buscarPorDni(dni);
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    
+    String dni = txtBuscar.getText().trim();
+    if (!dni.isEmpty()) {
+        buscarPorDni(dni); // Este método hará todo
+    } else {
+        JOptionPane.showMessageDialog(null, "Ingrese un DNI para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -622,6 +627,7 @@ private void tablaEnfermeria() {
     cmboxPaciente.setSelectedIndex(0);
     cmboxMedico.setSelectedIndex(0);
     cmboxArea.setSelectedIndex(0);
+    txtBuscar.setText(title);
 }
 
 private void activarCtrls(boolean valor){
@@ -656,19 +662,17 @@ private void activarCtrls(boolean valor){
 private void cargarPacientes() {
     try {
         GPaciente gp = new GPaciente();
-        listpPacientes = gp.listar(); // Guardamos todos los pacientes en la lista
+        listpPacientes = gp.listar();  // Lista de objetos
 
-        cmboxPaciente.removeAllItems(); // Limpiar el combo
-
+        cmboxPaciente.removeAllItems();
         for (Paciente p : listpPacientes) {
-            cmboxPaciente.addItem(p.getNombres() + " " + p.getApellidos()); // solo mostramos el nombre
+            cmboxPaciente.addItem(p.getNombres() + " " + p.getApellidos());
         }
-
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar pacientes: " + e.getMessage());
-        e.printStackTrace();
+        // …
     }
 }
+
 
 private void cargarMedicos() {
     try {
@@ -698,25 +702,29 @@ private void cargarAreas() {
     }
 }
 
-
 private void buscarPorDni(String dni) {
     try {
-        System.out.println("Buscando DNI: " + dni); // Para verificar en consola
-
         GPaciente gestPaciente = new GPaciente();
         Paciente paciente = gestPaciente.buscarPorDni(dni);
 
         if (paciente != null) {
-            System.out.println("Paciente encontrado: " + paciente.getNombres());
-            JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+            // Limpiar lista y combo
+            listpPacientes.clear();
+            cmboxPaciente.removeAllItems();
+
+            // Agregar solo el paciente encontrado
+            listpPacientes.add(paciente);
+            cmboxPaciente.addItem(paciente.getNombres() + " " + paciente.getApellidos());
+            cmboxPaciente.setSelectedIndex(0); // Lo selecciona directamente
+
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró paciente con ese DNI", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
-
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
 
 private void filtrar() {
     String texto = txtBuscar1.getText().trim();
