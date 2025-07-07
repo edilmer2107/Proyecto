@@ -17,6 +17,8 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuItem4 = new javax.swing.JMenuItem();
         desktopPane = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         PACIENTES = new javax.swing.JMenu();
         mnlmPaciente = new javax.swing.JMenuItem();
@@ -44,8 +46,29 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        PACIENTES.setText("PACIENTES");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/inicio.jpg"))); // NOI18N
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        desktopPane.add(jPanel1);
+        jPanel1.setBounds(0, 0, 1250, 700);
+
+        PACIENTES.setMnemonic('e');
+        PACIENTES.setText("PACIENTES");
+        PACIENTES.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        mnlmPaciente.setMnemonic('y');
         mnlmPaciente.setText("Paciente");
         mnlmPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,6 +80,7 @@ public class Inicio extends javax.swing.JFrame {
         menuBar.add(PACIENTES);
 
         MÉDICOS.setText("MEDICO");
+        MÉDICOS.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         mnItmMedico.setText("Registrar Medico");
         mnItmMedico.addActionListener(new java.awt.event.ActionListener() {
@@ -69,6 +93,7 @@ public class Inicio extends javax.swing.JFrame {
         menuBar.add(MÉDICOS);
 
         jMenu2.setText("AREAS");
+        jMenu2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         mnItmEnfermeria.setText("Enfermería");
         mnItmEnfermeria.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +138,7 @@ public class Inicio extends javax.swing.JFrame {
         menuBar.add(jMenu2);
 
         jMenu1.setText("HISTORIAS");
+        jMenu1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         mnItmHistoria.setText("Historias");
         mnItmHistoria.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +151,7 @@ public class Inicio extends javax.swing.JFrame {
         menuBar.add(jMenu1);
 
         jMenu3.setText("REPORTES");
+        jMenu3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         mnItmReportesDiarios.setText("Reportes diarios");
         mnItmReportesDiarios.addActionListener(new java.awt.event.ActionListener() {
@@ -168,12 +195,26 @@ public class Inicio extends javax.swing.JFrame {
 
         menuBar.add(jMenu3);
 
+        helpMenu.setMnemonic('h');
         helpMenu.setText("AYUDA");
+        helpMenu.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
-        contentMenuItem.setText("Contents");
+        contentMenuItem.setMnemonic('c');
+        contentMenuItem.setText("Información del sistema");
+        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(contentMenuItem);
 
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setMnemonic('a');
+        aboutMenuItem.setText("Salir");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -263,6 +304,15 @@ public class Inicio extends javax.swing.JFrame {
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmReporteAreaActionPerformed
 
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+        JIFGInformacionSistema jif = JIFGInformacionSistema.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_contentMenuItemActionPerformed
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -303,10 +353,12 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnItmEnfermeria;
     private javax.swing.JMenuItem mnItmHistoria;

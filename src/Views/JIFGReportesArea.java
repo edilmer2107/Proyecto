@@ -35,6 +35,8 @@ private static JIFGReportesArea instancia;
         areaTexto = new javax.swing.JTextArea();
         btnSalir1 = new javax.swing.JButton();
 
+        setTitle("REPORTES POR AREA");
+
         areaTexto.setColumns(20);
         areaTexto.setRows(5);
         jScrollPane1.setViewportView(areaTexto);

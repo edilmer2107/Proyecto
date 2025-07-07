@@ -1,2 +1,13 @@
-/build/classes/
+# Ignorar carpetas de compilación
+build/
+dist/
+
+# Ignorar archivos compilados de Java
 *.class
+
+# Ignorar configuración temporal de NetBeans
+nbproject/private/
+
+# Ignorar archivos temporales
+*.log
+*.tmp
