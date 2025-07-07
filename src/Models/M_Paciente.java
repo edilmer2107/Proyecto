@@ -14,6 +14,7 @@ public class M_Paciente extends AbstractTableModel{
 
     public void setListPaciente(ArrayList<Paciente> listPaciente) {
         this.listPaciente = listPaciente;
+        fireTableDataChanged();
     }
     
 

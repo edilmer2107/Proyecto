@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 /build/
 *.class
 /bin/
 /out/
+=======
+/build/classes/
+*.class
+>>>>>>> Rama-BILLY
