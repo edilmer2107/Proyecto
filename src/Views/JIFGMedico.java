@@ -67,6 +67,9 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
+        setResizable(true);
+        setTitle("MEDICO");
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos "));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -331,7 +334,10 @@ public class JIFGMedico extends javax.swing.JInternalFrame {
             this.limpiarFormulario();
             this.activarCrls(false);
         } catch (Exception e) {
-        }
+    JOptionPane.showMessageDialog(this, "Error al guardar médico: " + e.getMessage());
+    e.printStackTrace();
+}
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -487,7 +493,7 @@ private void limpiarFormulario(){
     try {
         Medico medico = gestMedico.buscarPorDni(dni); // Asegúrate de que este método exista en GPaciente
         
-        JOptionPane.showMessageDialog(this, medico.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(this, medico.verDatos(), "DATOS DEL MEDICO", JOptionPane.PLAIN_MESSAGE);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }

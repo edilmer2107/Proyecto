@@ -48,11 +48,11 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        btnVerDatos1 = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
         btnSalir1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLista = new javax.swing.JTable();
+
+        setTitle("HISTORIA");
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -62,24 +62,6 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado "));
-
-        btnVerDatos1.setBackground(new java.awt.Color(0, 51, 255));
-        btnVerDatos1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        btnVerDatos1.setText("Ver Datos");
-        btnVerDatos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerDatos1ActionPerformed(evt);
-            }
-        });
-
-        btnEliminar1.setBackground(new java.awt.Color(204, 0, 0));
-        btnEliminar1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        btnEliminar1.setText("Eliminar");
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
-            }
-        });
 
         btnSalir1.setBackground(new java.awt.Color(0, 153, 0));
         btnSalir1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -109,12 +91,9 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnVerDatos1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                    .addComponent(btnEliminar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalir1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -123,10 +102,6 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnVerDatos1)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar1)
-                        .addGap(284, 284, 284)
                         .addComponent(btnSalir1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 92, Short.MAX_VALUE))
@@ -166,14 +141,6 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnVerDatos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDatos1ActionPerformed
-        
-    }//GEN-LAST:event_btnVerDatos1ActionPerformed
-
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
-        
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
-
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalir1ActionPerformed
@@ -181,9 +148,7 @@ public class JIFGHistoria extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEliminar1;
     private javax.swing.JButton btnSalir1;
-    private javax.swing.JButton btnVerDatos1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblLista;
