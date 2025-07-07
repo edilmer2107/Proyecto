@@ -30,6 +30,12 @@ public class Inicio extends javax.swing.JFrame {
         mnItmPsicologia = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         mnItmHistoria = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        mnItmReportesDiarios = new javax.swing.JMenuItem();
+        mnItmReportesSemanales = new javax.swing.JMenuItem();
+        mnItmReportesMensuales = new javax.swing.JMenuItem();
+        mnItmReportesMotivos = new javax.swing.JMenuItem();
+        mnItmReporteArea = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -120,6 +126,50 @@ public class Inicio extends javax.swing.JFrame {
 
         menuBar.add(jMenu1);
 
+        jMenu3.setText("REPORTES");
+
+        mnItmReportesDiarios.setText("Reportes diarios");
+        mnItmReportesDiarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmReportesDiariosActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnItmReportesDiarios);
+
+        mnItmReportesSemanales.setText("Reportes semanales");
+        mnItmReportesSemanales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmReportesSemanalesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnItmReportesSemanales);
+
+        mnItmReportesMensuales.setText("Reportes Mensuales");
+        mnItmReportesMensuales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmReportesMensualesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnItmReportesMensuales);
+
+        mnItmReportesMotivos.setText("Reportes por consultas ");
+        mnItmReportesMotivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmReportesMotivosActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnItmReportesMotivos);
+
+        mnItmReporteArea.setText("Reportes por área");
+        mnItmReporteArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItmReporteAreaActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnItmReporteArea);
+
+        menuBar.add(jMenu3);
+
         helpMenu.setMnemonic('h');
         helpMenu.setText("AYUDA");
 
@@ -193,6 +243,31 @@ public class Inicio extends javax.swing.JFrame {
         mostrarVentana(jif);
     }//GEN-LAST:event_mnItmPsicologiaActionPerformed
 
+    private void mnItmReportesDiariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmReportesDiariosActionPerformed
+        JIFGReportesDiarios jif = JIFGReportesDiarios.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmReportesDiariosActionPerformed
+
+    private void mnItmReportesSemanalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmReportesSemanalesActionPerformed
+        JIFGReportesSemanales jif = JIFGReportesSemanales.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmReportesSemanalesActionPerformed
+
+    private void mnItmReportesMensualesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmReportesMensualesActionPerformed
+        JIFGReportesMensuales jif = JIFGReportesMensuales.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmReportesMensualesActionPerformed
+
+    private void mnItmReportesMotivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmReportesMotivosActionPerformed
+        JIFGReportesMotivoConsulta jif = JIFGReportesMotivoConsulta.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmReportesMotivosActionPerformed
+
+    private void mnItmReporteAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItmReporteAreaActionPerformed
+        JIFGReportesArea jif = JIFGReportesArea.getInstancia();
+        mostrarVentana(jif);
+    }//GEN-LAST:event_mnItmReporteAreaActionPerformed
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -235,6 +310,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnItmEnfermeria;
@@ -244,6 +320,11 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItmObstetricia;
     private javax.swing.JMenuItem mnItmOdontologia;
     private javax.swing.JMenuItem mnItmPsicologia;
+    private javax.swing.JMenuItem mnItmReporteArea;
+    private javax.swing.JMenuItem mnItmReportesDiarios;
+    private javax.swing.JMenuItem mnItmReportesMensuales;
+    private javax.swing.JMenuItem mnItmReportesMotivos;
+    private javax.swing.JMenuItem mnItmReportesSemanales;
     private javax.swing.JMenuItem mnlmPaciente;
     // End of variables declaration//GEN-END:variables
 private void mostrarVentana(JInternalFrame jif){

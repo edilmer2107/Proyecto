@@ -16,6 +16,7 @@ import Entidades.Paciente;
 import Entidades.Medico;
 import Entidades.Especialidad;
 import Models.MC_Especialidad;
+import Models.MC_Paciente;
 import Models.M_Medico;
 import javax.swing.DefaultComboBoxModel;
 
@@ -29,6 +30,7 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
     private  int idActualizar = -1;
     GHistoria gestEnferme = new GHistoria();
     M_Historia mtE = new M_Historia();
+    MC_Paciente mCP = new MC_Paciente();
 
     private ArrayList<Paciente> listpPacientes = new ArrayList<>();
     private ArrayList<Medico> listaMedicos = new ArrayList<>();
@@ -377,7 +379,8 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public static String fechaActual(){
+
+    public static String fechaActual(){
         Date fecha = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         return formatoFecha.format(fecha);
@@ -708,6 +711,7 @@ private void buscarPorDni(String dni) {
         Paciente paciente = gestPaciente.buscarPorDni(dni);
 
         if (paciente != null) {
+<<<<<<< HEAD
             // Limpiar lista y combo
             listpPacientes.clear();
             cmboxPaciente.removeAllItems();
@@ -717,6 +721,22 @@ private void buscarPorDni(String dni) {
             cmboxPaciente.addItem(paciente.getNombres() + " " + paciente.getApellidos());
             cmboxPaciente.setSelectedIndex(0); // Lo selecciona directamente
 
+=======
+            System.out.println("Paciente encontrado: " + paciente.getNombres());
+            
+            JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
+            
+             // Crear una nueva lista con solo ese paciente
+            ArrayList<Paciente> lista = new ArrayList<>();
+            lista.add(paciente);
+
+            // Actualizar el modelo del combo
+            mCP.setListaPacientes(lista);
+
+            // Seleccionar el paciente automáticamente
+            mCP.setSelectedItem(paciente);
+            
+>>>>>>> origin/RamaEdil
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró paciente con ese DNI", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
