@@ -123,6 +123,12 @@ public class JIFGEnfermeria extends javax.swing.JInternalFrame {
             }
         });
 
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Area");
 
         cmboxPaciente.addActionListener(new java.awt.event.ActionListener() {
@@ -567,6 +573,10 @@ System.out.println("Valor de texto: [" + texto + "]");
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
@@ -630,7 +640,7 @@ private void tablaEnfermeria() {
     cmboxPaciente.setSelectedIndex(0);
     cmboxMedico.setSelectedIndex(0);
     cmboxArea.setSelectedIndex(0);
-    txtBuscar.setText(title);
+    txtBuscar.setText("");
 }
 
 private void activarCtrls(boolean valor){
@@ -711,32 +721,9 @@ private void buscarPorDni(String dni) {
         Paciente paciente = gestPaciente.buscarPorDni(dni);
 
         if (paciente != null) {
-<<<<<<< HEAD
-            // Limpiar lista y combo
-            listpPacientes.clear();
             cmboxPaciente.removeAllItems();
-
-            // Agregar solo el paciente encontrado
-            listpPacientes.add(paciente);
             cmboxPaciente.addItem(paciente.getNombres() + " " + paciente.getApellidos());
-            cmboxPaciente.setSelectedIndex(0); // Lo selecciona directamente
-
-=======
-            System.out.println("Paciente encontrado: " + paciente.getNombres());
-            
-            JOptionPane.showMessageDialog(this, paciente.verDatos(), "DATOS DEL PACIENTE", JOptionPane.PLAIN_MESSAGE);
-            
-             // Crear una nueva lista con solo ese paciente
-            ArrayList<Paciente> lista = new ArrayList<>();
-            lista.add(paciente);
-
-            // Actualizar el modelo del combo
-            mCP.setListaPacientes(lista);
-
-            // Seleccionar el paciente automáticamente
-            mCP.setSelectedItem(paciente);
-            
->>>>>>> origin/RamaEdil
+            cmboxPaciente.setSelectedIndex(0);
         } else {
             JOptionPane.showMessageDialog(this, "No se encontró paciente con ese DNI", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
