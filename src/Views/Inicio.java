@@ -44,10 +44,8 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        PACIENTES.setMnemonic('e');
         PACIENTES.setText("PACIENTES");
 
-        mnlmPaciente.setMnemonic('y');
         mnlmPaciente.setText("Paciente");
         mnlmPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,14 +168,11 @@ public class Inicio extends javax.swing.JFrame {
 
         menuBar.add(jMenu3);
 
-        helpMenu.setMnemonic('h');
         helpMenu.setText("AYUDA");
 
-        contentMenuItem.setMnemonic('c');
         contentMenuItem.setText("Contents");
         helpMenu.add(contentMenuItem);
 
-        aboutMenuItem.setMnemonic('a');
         aboutMenuItem.setText("About");
         helpMenu.add(aboutMenuItem);
 
